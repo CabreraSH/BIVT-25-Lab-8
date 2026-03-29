@@ -22,7 +22,7 @@
             {
                 
                 int k = 0;
-                for (int i = 0; i < responses.Length; i++) /
+                for (int i = 0; i < responses.Length; i++)
                 {
                     if (responses[i].Name == _name)
                     {
