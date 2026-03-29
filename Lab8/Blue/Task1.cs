@@ -2,92 +2,92 @@
 {
     public class Task1
     {
-            // Fields / Поля 
+                public class Response
+        {
             private string _name;
-            protected int _votes; // This one is only accessible in Response and child classes
-        
-            // Propoerties/ Свойства
+            protected int _votes;
+            
             public string Name => _name;
             public int Votes => _votes;
-        
-            // Конструктор
+            
             public Response(string name)
             {
                 _name = name;
-                _votes = 0;
             }
-        
-            // Method / Метод
-            public virtual int CountVotes(Response[] responses) // "Virtual" means that we can override it in a subclass (like HumanResponse, for example)
+            
+            public virtual int CountVotes(Response[] responses)
             {
-                
-                int k = 0;
+                int count = 0;
                 for (int i = 0; i < responses.Length; i++)
                 {
-                    if (responses[i].Name == _name)
+                    if (_name == responses[i]._name)
                     {
-                        k++;
+                        count++;
                     }
                 }
                 
                 for (int i = 0; i < responses.Length; i++)
                 {
-                    if (responses[i].Name == _name)
+                    if (_name == responses[i]._name)
                     {
-                        responses[i]._votes = k;
+                        responses[i]._votes = count;
                     }
                 }
                 
-                _votes = k;
-                return _votes;
+                return count;
             }
-        
+            
             public virtual void Print()
             {
-                return;
+                Console.WriteLine("Name: " + _name +  ", Votes: " + _votes);
             }
         }
-     
+
         public class HumanResponse : Response
         {
-            // Поля
             private string _surname;
-            
-            // Свойства
             public string Surname => _surname;
             
-            // Конструктор
             public HumanResponse(string name, string surname) : base(name)
             {
                 _surname = surname;
             }
             
-            // Методы
             public override int CountVotes(Response[] responses)
             {
-                int k = 0;
-                for (int i = 0; i < responses.Length; i++) 
+                int count = 0;
+                for (int i = 0; i < responses.Length; i++)
                 {
-                    if (responses[i] is HumanResponse Human && Human.Name == Name && Human.Surname == _surname)
+
+                    if (responses[i] is HumanResponse humanResp)
                     {
-                        k++;
+                        if (Name == humanResp.Name && _surname == humanResp._surname)
+                        {
+                            count++;
+                        }
                     }
                 }
                 
                 for (int i = 0; i < responses.Length; i++)
                 {
-                    if (responses[i] is HumanResponse Human && Human.Name == Name && Human.Surname == _surname)
+                    if (responses[i] is HumanResponse humanResp)
                     {
-                        Human._votes = k;
+                        if (Name == humanResp.Name && _surname == humanResp._surname)
+                        {
+                            humanResp._votes = count;
+                        }
                     }
                 }
-                _votes = k;
-                return _votes;
+                
+                return count;
             }
+            
             public override void Print()
             {
-                return;
+                Console.WriteLine($"Name: {Name}, Surname: {_surname}, Votes: {_votes}");
             }
+            
         }
     }
+ 
 }
